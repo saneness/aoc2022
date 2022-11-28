@@ -1,12 +1,4 @@
-data = open("data/1.data").read()
-if "\n" in data:
-    data = data.split("\n")
+from aocd.models import Puzzle
 
-
-def solve():
-    def solution():
-        pass
-
-    print(solution())
-
-solve()
+puzzle = Puzzle(year=2022, day=1)
+data = puzzle.input_data
