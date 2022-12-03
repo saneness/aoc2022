@@ -7,7 +7,7 @@ def intersection(items):
     return ''.join([''.join(set.intersection(*item)) for item in items])
 
 def priority(items):
-    return sum([ord(char) - 96 if ord(char) > 96 else ord(char) - 38 for char in items])
+    return sum([ord(char) - ord('a') + 1 if ord('a') <= ord(char) <= ord('z') else ord(char) - ord('A') + 27 for char in items])
 
 compartments = [[set(item[:len(item)//2]), set(item[len(item)//2:])] for item in data]
 answer_a = priority(intersection(compartments))
