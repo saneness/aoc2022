@@ -1,7 +1,8 @@
 from aocd.models import Puzzle
+import numpy as np
 
 puzzle = Puzzle(year=2022, day=1)
-data = [sum([int(subitem) for subitem in item.splitlines()]) for item in puzzle.input_data.split("\n\n")]
+data = [sum(np.array(item.splitlines()).astype(int)) for item in puzzle.input_data.split("\n\n")]
 
 answer_a = max(data)
 answer_b = sum(sorted(data)[-3:])
