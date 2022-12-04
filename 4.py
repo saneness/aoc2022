@@ -1,16 +1,11 @@
 from aocd.models import Puzzle
+import numpy as np
 
 puzzle = Puzzle(year=2022, day=4)
-data = puzzle.input_data.splitlines()
+data = [np.array(line.replace('-', ',').split(',')).astype(int) for line in puzzle.input_data.splitlines()]
 
-answer_a = 0
-answer_b = 0
-
-for line in data:
-    line = [int(item) for item in line.replace('-', ',').split(',')]
-    first, second = [set(range(line[0], line[1] + 1)), set(range(line[2], line[3] + 1))]
-    answer_a += 1 if len(set.intersection(first, second)) in [len(first), len(second)] else 0
-    answer_b += 1 if len(set.intersection(first, second)) > 0 else 0
+answer_a = sum([1 if line[0] <= line[2] <= line[3] <= line[1] or line[2] <= line[0] <= line[1] <= line[3] else 0 for line in data])
+answer_b = sum([1 if line[0] <= line[2] <= line[1]            or line[2] <= line[0] <= line[3]            else 0 for line in data])
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
