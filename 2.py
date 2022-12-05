@@ -13,7 +13,7 @@ game_score = {
 }
 
 def score(games):
-    return sum([game_score[game[0]][game[1]] for game in games])
+    return sum([game_score[player1][player2] for [player1, player2] in games])
 
 answer_a = score(data)
 answer_b = score([item[::-1] for item in data])
