@@ -10,9 +10,9 @@ def priority(items):
     return sum([ord(char) - ord('a') + 1 if ord('a') <= ord(char) <= ord('z') else ord(char) - ord('A') + 27 for char in items])
 
 compartments = [[set(item[:len(item)//2]), set(item[len(item)//2:])] for item in data]
-answer_a = priority(intersection(compartments))
-
 groups = [[set(item) for item in data[i:i+3]] for i in range(0, len(data), 3)]
+
+answer_a = priority(intersection(compartments))
 answer_b = priority(intersection(groups))
 
 puzzle.answer_a = answer_a
