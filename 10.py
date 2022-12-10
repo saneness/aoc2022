@@ -43,15 +43,13 @@ def decode(coded):
 
     return "".join(decoder[coded] for coded in coded_list)
 
-cycle = 0
-x = 1
-signals = []
-pixels = []
+cycle, x = 0, 1
+signals, pixels = [], []
 row = ''
 for line in data:
     cycle += 1
     row += '#' if abs(cycle % 40 - x - 1) <= 1 else '.'
-    if (cycle - 20) % 40 == 0:
+    if cycle % 40 == 20:
         signals.append(x * cycle)
     if cycle % 40 == 0:
         pixels.append(row)
