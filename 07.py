@@ -3,8 +3,8 @@ from aocd.models import Puzzle
 puzzle = Puzzle(year=2022, day=7)
 data = [line.split() for line in puzzle.input_data.splitlines()]
 
-def get_parent(file):
-    return "/".join(file.split("/")[:-2 if file[-1] == "/" else -1]) + "/"
+def get_parent(path):
+    return "/".join(path.split("/")[:-2 if path[-1] == "/" else -1]) + "/"
 
 files = {}
 for line in data:
