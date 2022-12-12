@@ -11,7 +11,7 @@ def get_path(data, start):
     unvisited = []
     for i in range(i_size):
         for j in range(j_size):
-                if chr(data[i][j]) == start:
+                if chr(data[i][j]) in start:
                     paths[i][j] = 0
                     unvisited.append((i, j))
                 if chr(data[i][j]) == "S":
@@ -30,8 +30,8 @@ def get_path(data, start):
 
     return paths[end[0]][end[1]]
 
-answer_a = get_path(deepcopy(data), start="S")
-answer_b = get_path(deepcopy(data), start="a")
+answer_a = get_path(deepcopy(data), start=["S"])
+answer_b = get_path(deepcopy(data), start=["S", "a"])
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
