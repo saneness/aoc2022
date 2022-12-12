@@ -9,8 +9,8 @@ data = puzzle.input_data
 
 rx = re.compile(r'''
     Monkey\ (?P<id>\d+):\s*
-      Starting\ items\:\ (?P<items>\d+(,\ \d+)*)\s*
-      Operation\:\ new \ \=\ (?P<operation>.*)\s*
+      Starting\ items\:\ *(?P<items>\d*(,\ \d+)*)\s*
+      Operation\:\ new \ \=\ (?P<operation>(old|\d+)\s[\+\-\*\/]\s(old|\d+))\s*
       Test\:\ divisible\ by\ (?P<test>\d+)\s*
         If\ true\:\ throw\ to\ monkey\ (?P<true>\d+)\s*
         If\ false\:\ throw\ to\ monkey\ (?P<false>\d+)
@@ -18,7 +18,7 @@ rx = re.compile(r'''
 
 monkeys = { 
     int(m.group("id")): {
-        "items": list(np.array(m.group("items").split(",")).astype(int)),
+        "items": list(np.array(m.group("items").split(",") if len(m.group("items")) > 0 else []).astype(int)),
         "operation": m.group("operation"),
         "test": int(m.group("test")),
         "to": m.group("true") + " if new % " + m.group("test") + " == 0 else " + m.group('false')
@@ -36,6 +36,7 @@ def predict(players, iterations, mod=1):
                 old = player["items"].pop()
                 new = int(eval(player["operation"])) // mod
                 players[eval(player["to"])]["items"].append(new % lcm)
+
     return math.prod(sorted(stats)[-2:])
 
 answer_a = predict(players=monkeys, iterations=20, mod=3)
