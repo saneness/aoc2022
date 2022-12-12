@@ -4,10 +4,7 @@ puzzle = Puzzle(year=2022, day=6)
 data = puzzle.input_data
 
 def marker(message, n):
-    for i in range(len(data)-n):
-        packet = data[i:i+n]
-        if len(set(packet)) == len(packet):
-            return i + n
+    return min([i + n for i in range(len(message)-n) if len(set(message[i:i+n])) == n])
 
 answer_a = marker(data, 4)
 answer_b = marker(data, 14)
