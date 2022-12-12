@@ -36,8 +36,8 @@ def move_batch(containers, actions):
 def top(containers):
     return ''.join([container[-1] for container in containers])
 
-answer_a = top(move_one(containers_data, actions_data))
-answer_b = top(move_batch(containers_data, actions_data))
+answer_a = top(move_one(containers=containers_data, actions=actions_data))
+answer_b = top(move_batch(containers=containers_data, actions=actions_data))
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
