@@ -25,20 +25,20 @@ monkeys = {
     } for m in rx.finditer(data)
 }
 
-def predict(monkeys, iterations, mod=1):
-    lcm = math.prod([monkey["test"] for monkey in monkeys.values()])
-    stats = [0 for i in range(len(monkeys))]
+def predict(players, iterations, mod=1):
+    lcm = math.prod([player["test"] for player in players.values()])
+    stats = [0 for i in range(len(players))]
     for _ in range(iterations):
-        for id, monkey in monkeys.items():
-            stats[id] += len(monkey["items"])
-            while len(monkey["items"]) > 0:
-                old = monkey["items"].pop()
-                new = int(eval(monkey["operation"])) // mod
-                monkeys[eval(monkey["to"])]["items"].append(new % lcm)
+        for id, player in players.items():
+            stats[id] += len(player["items"])
+            while len(player["items"]) > 0:
+                old = player["items"].pop()
+                new = int(eval(player["operation"])) // mod
+                players[eval(player["to"])]["items"].append(new % lcm)
     return math.prod(sorted(stats)[-2:])
 
-answer_a = predict(deepcopy(monkeys), iterations=20, mod=3)
-answer_b = predict(deepcopy(monkeys), iterations=10000)
+answer_a = predict(players=deepcopy(monkeys), iterations=20, mod=3)
+answer_b = predict(players=deepcopy(monkeys), iterations=10000)
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
