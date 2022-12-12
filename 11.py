@@ -26,6 +26,7 @@ monkeys = {
 }
 
 def predict(players, iterations, mod=1):
+    players = deepcopy(players)
     lcm = math.prod([player["test"] for player in players.values()])
     stats = [0 for i in range(len(players))]
     for _ in range(iterations):
@@ -37,8 +38,8 @@ def predict(players, iterations, mod=1):
                 players[eval(player["to"])]["items"].append(new % lcm)
     return math.prod(sorted(stats)[-2:])
 
-answer_a = predict(players=deepcopy(monkeys), iterations=20, mod=3)
-answer_b = predict(players=deepcopy(monkeys), iterations=10000)
+answer_a = predict(players=monkeys, iterations=20, mod=3)
+answer_b = predict(players=monkeys, iterations=10000)
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
