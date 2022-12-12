@@ -5,6 +5,7 @@ puzzle = Puzzle(year=2022, day=12)
 data = [[ord(char) for char in line] for line in puzzle.input_data.splitlines()]
 
 def get_path(grid, start):
+    grid = deepcopy(grid)
     i_size = len(grid)
     j_size = len(grid[0])
     paths = [[-1 for _ in range(j_size)] for _ in range(i_size)]
@@ -32,8 +33,8 @@ def get_path(grid, start):
 
     return paths[end[0]][end[1]]
 
-answer_a = get_path(grid=deepcopy(data), start=["S"])
-answer_b = get_path(grid=deepcopy(data), start=["S", "a"])
+answer_a = get_path(grid=data, start=["S"])
+answer_b = get_path(grid=data, start=["S", "a"])
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
