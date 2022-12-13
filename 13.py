@@ -1,8 +1,9 @@
 from aocd.models import Puzzle
 import functools
+import json
 
 puzzle = Puzzle(year=2022, day=13)
-data = [[eval(subitem) for subitem in item.splitlines()] for item in puzzle.input_data.split("\n\n")]
+data = [[json.loads(subitem) for subitem in item.splitlines()] for item in puzzle.input_data.split("\n\n")]
 
 def compare_inner(a, b):
     if type(a) == list and type(b) == list:
