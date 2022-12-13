@@ -4,20 +4,19 @@ import math
 
 puzzle = Puzzle(year=2022, day=13)
 data = [[json.loads(subitem) for subitem in item.splitlines()] for item in puzzle.input_data.split("\n\n")]
-# data = [[json.loads(subitem) for subitem in item.splitlines()] for item in open("test").read().split("\n\n")]
 
 def compare_inner(a, b):
     if type(a) == list and type(b) == list:
         length = min(len(a), len(b))
-        result = [compare_inner(ai, bi) for ai, bi in zip(a[:length], b[:length])]
+        result = [compare_inner(a=ai, b=bi) for ai, bi in zip(a[:length], b[:length])]
         last = -1 if len(a) < len(b) else 1 if len(a) > len(b) else 0
         return result + [last]
     elif type(a) == int and type(b) == int:
         return -1 if a < b else 1 if a > b else 0
     elif type(a) == list and type(b) == int:
-        return compare_inner(a, [b])
+        return compare_inner(a=a, b=[b])
     elif type(a) == int and type(b) == list:
-        return compare_inner([a], b)
+        return compare_inner(a=[a], b=b)
 
 def compare(a, b):
     comparison = str(compare_inner(a=a, b=b))
