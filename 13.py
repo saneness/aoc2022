@@ -19,16 +19,14 @@ def compare_inner(a, b):
 
 def compare(a, b):
     comparison = str(compare_inner(a=a, b=b))
-    first, second = comparison.find("-1"), comparison.find("1")
-    return -1 if (0 < first < second or second < 0 < first) else 1 if (0 < second < first or first < 0 < second) else 0
+    less, more = comparison.find("-1"), comparison.find("1")
+    return -1 if (0 < less < more or more < 0 < less) else 1 if (0 < more < less or less < 0 < more) else 0
 
 ordered = 0
 total = [[[2]], [[6]]]
 for i, [first, second] in enumerate(data):
-    total.append(first)
-    total.append(second)
-    result = compare(a=first, b=second)
-    ordered += i + 1 if result == -1 else 0
+    ordered += i + 1 if compare(a=first, b=second) == -1 else 0
+    total += first, second
 
 total.sort(key=functools.cmp_to_key(compare))
 
