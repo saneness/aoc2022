@@ -4,21 +4,21 @@ import functools
 puzzle = Puzzle(year=2022, day=13)
 data = [[eval(subitem) for subitem in item.splitlines()] for item in puzzle.input_data.split("\n\n")]
 
-def _compare(a, b):
+def compare_inner(a, b):
     if type(a) == list and type(b) == list:
         length = min(len(a), len(b))
-        result = [_compare(ai, bi) for ai, bi in zip(a[:length], b[:length])]
+        result = [compare_inner(ai, bi) for ai, bi in zip(a[:length], b[:length])]
         last = -1 if len(a) < len(b) else 1 if len(a) > len(b) else 0
         return result + [last]
     elif type(a) == int and type(b) == int:
         return -1 if a < b else 1 if a > b else 0
     elif type(a) == list and type(b) == int:
-        return _compare(a, [b])
+        return compare_inner(a, [b])
     elif type(a) == int and type(b) == list:
-        return _compare([a], b)
+        return compare_inner([a], b)
 
 def compare(a, b):
-    comparison = str(_compare(a=a, b=b))
+    comparison = str(compare_inner(a=a, b=b))
     first, second = comparison.find("-1"), comparison.find("1")
     return -1 if (0 < first < second or second < 0 < first) else 1 if (0 < second < first or first < 0 < second) else 0
 
