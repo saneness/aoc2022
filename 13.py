@@ -31,8 +31,6 @@ for i, [first, second] in enumerate(data):
     dividers[0] += sum([1 for number in [first, second] if compare(a=[[2]], b=number) == 1])
     dividers[1] += sum([1 for number in [first, second] if compare(a=[[6]], b=number) == 1])
 
-# total.sort(key=functools.cmp_to_key(compare))
-
 answer_a = ordered
 answer_b = math.prod(dividers)
 
