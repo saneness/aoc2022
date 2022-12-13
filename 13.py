@@ -1,9 +1,10 @@
 from aocd.models import Puzzle
-import functools
 import json
+import math
 
 puzzle = Puzzle(year=2022, day=13)
 data = [[json.loads(subitem) for subitem in item.splitlines()] for item in puzzle.input_data.split("\n\n")]
+# data = [[json.loads(subitem) for subitem in item.splitlines()] for item in open("test").read().split("\n\n")]
 
 def compare_inner(a, b):
     if type(a) == list and type(b) == list:
@@ -24,15 +25,16 @@ def compare(a, b):
     return -1 if (0 < less < more or more < 0 < less) else 1 if (0 < more < less or less < 0 < more) else 0
 
 ordered = 0
-total = [[[2]], [[6]]]
+dividers = [1, 2]
 for i, [first, second] in enumerate(data):
     ordered += i + 1 if compare(a=first, b=second) == -1 else 0
-    total += first, second
+    dividers[0] += sum([1 for number in [first, second] if compare(a=[[2]], b=number) == 1])
+    dividers[1] += sum([1 for number in [first, second] if compare(a=[[6]], b=number) == 1])
 
-total.sort(key=functools.cmp_to_key(compare))
+# total.sort(key=functools.cmp_to_key(compare))
 
 answer_a = ordered
-answer_b = (total.index([[2]]) + 1) * (total.index([[6]]) + 1)
+answer_b = math.prod(dividers)
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
