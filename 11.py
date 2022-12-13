@@ -21,7 +21,7 @@ monkeys = {
         "items": list(np.array(m.group("items").split(",") if len(m.group("items")) > 0 else []).astype(int)),
         "operation": m.group("operation"),
         "test": int(m.group("test")),
-        "to": m.group("true") + " if new % " + m.group("test") + " == 0 else " + m.group('false')
+        "to": f"{m.group('true')} if new % {m.group('test')} == 0 else {m.group('false')}"
     } for m in rx.finditer(data)
 }
 
