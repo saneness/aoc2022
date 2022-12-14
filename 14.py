@@ -38,7 +38,7 @@ def count(cave, x_start, y_start, y_max):
     finished = False
     while not finished:
         x, y = add_unit(cave=cave, x=x_start, y=y_start)
-        if x and y and y < y_max:
+        if x is not None and y is not None and y < y_max and cave[y][x] == ".":
             cave[y][x] = "o"
             count += 1
         else:
@@ -46,7 +46,7 @@ def count(cave, x_start, y_start, y_max):
     return count
 
 answer_a = count(cave=grid, x_start=x_start, y_start=0, y_max=y_size_to-2)
-answer_b = count(cave=grid, x_start=x_start, y_start=0, y_max=y_size_to) + 1
+answer_b = count(cave=grid, x_start=x_start, y_start=0, y_max=y_size_to) 
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
