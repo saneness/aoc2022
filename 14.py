@@ -14,9 +14,10 @@ grid = [['.' for i in range(x_size_from, x_size_to)] for j in range(y_size_to)] 
 
 for rock in normalized_data:
     for i, [x_to, y_to] in enumerate(rock[1:], start=1):
-        [x_from, y_from] = rock[i-1]
-        for x in range(min(x_from, x_to), max(x_from, x_to) + 1):
-            for y in range(min(y_from, y_to), max(y_from, y_to) + 1):
+        [x_from, x_to] = sorted([rock[i-1][0], x_to])
+        [y_from, y_to] = sorted([rock[i-1][1], y_to])
+        for x in range(x_from, x_to + 1):
+            for y in range(y_from, y_to + 1):
                 grid[y][x] = "#"
 
 def add_unit(cave, x, y):
