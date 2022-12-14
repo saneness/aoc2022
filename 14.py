@@ -5,12 +5,12 @@ puzzle = Puzzle(year=2022, day=14)
 data = [[list(map(int, subitem.split(","))) for subitem in item.split(" -> ")] for item in puzzle.input_data.splitlines()]
 
 y_size_to = max([max([subitem[1] for subitem in item]) for item in data]) + 2
-x_size_from = 500 - y_size_to
-x_size_to = 500 + y_size_to
+x_size_from = 499 - y_size_to
+x_size_to = 501 + y_size_to
 x_start = 500 - x_size_from
 
 normalized_data = [[[subitem[0] - x_size_from, subitem[1]] for subitem in item] for item in data]
-grid = [['.' for i in range(x_size_from - 1, x_size_to + 1)] for j in range(y_size_to)] + [['#' for i in range(x_size_from - 1, x_size_to + 1)]]
+grid = [['.' for i in range(x_size_from, x_size_to)] for j in range(y_size_to)] + [['#' for i in range(x_size_from, x_size_to)]]
 
 for rock in normalized_data:
     for i, [x_to, y_to] in enumerate(rock[1:], start=1):
