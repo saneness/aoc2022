@@ -35,14 +35,13 @@ def add_unit(cave, x, y):
 def count(cave, x_start, y_start, y_max):
     cave=deepcopy(cave)
     count = 0
-    finished = False
-    while not finished:
+    while True:
         x, y = add_unit(cave=cave, x=x_start, y=y_start)
         if x is not None and y is not None and y < y_max and cave[y][x] == ".":
             cave[y][x] = "o"
             count += 1
         else:
-            finished = True
+            break
     return count
 
 answer_a = count(cave=grid, x_start=x_start, y_start=0, y_max=y_size_to-2)
