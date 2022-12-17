@@ -17,7 +17,39 @@ def spawn_rock(height, n):
             return [(2, height), (3, height), (2, height + 1), (3, height + 1)]
 
 def move_rock(grid, rock, direction):
-    pass
+    x_min = min([x for x, _ in rock])
+    x_max = max([x for x, _ in rock])
+    if direction == "<" and x_min > 0:
+        new = [(x - 1, y) for x, y in rock]
+    elif direction == ">" and x_max < 6:
+        new = [(x + 1, y) for x, y in rock]
+    else:
+        new = rock
+    if sum([1 for x, y in new if grid[y][x] == "#"]) == 0:
+        rock = new
+    under = [(x, y - 1) for x, y in rock]
+    if sum([1 for x, y in under if grid[y][x] == "#"]) == 0:
+        return False, under
+    else:
+        for x, y in rock:
+            grid[y][x] = "#"
+        return True, rock
 
+grid = [['#' for _ in range(7)]] + [['.' for _ in range(7)] for _ in range(10000)]
+moves = [*data]
 step = 0
-grid = ['#' for _ in range(7)] + [['.' for _ in range(7)] for _ in range(10000)]
+rocks = 0
+height = 0
+
+while rocks < 2022:
+    rock = spawn_rock(height=height+4, n=rocks)
+    placed = False
+    while not placed:
+        placed, rock = move_rock(grid=grid, rock=rock, direction=moves[step % len(moves)])
+        step += 1
+    height = max(height, max([y for _, y in rock]))
+    rocks += 1
+
+answer_a = height
+
+puzzle.answer_a = answer_a
