@@ -25,31 +25,48 @@ def move_rock(grid, rock, direction):
         new = [(x + 1, y) for x, y in rock]
     else:
         new = rock
-    if sum([1 for x, y in new if grid[y][x] == "#"]) == 0:
+    if sum([1 for x, y in new if (x, y) in grid]) == 0:
         rock = new
     under = [(x, y - 1) for x, y in rock]
-    if sum([1 for x, y in under if grid[y][x] == "#"]) == 0:
+    if sum([1 for x, y in under if (x, y) in grid]) == 0:
         return False, under
     else:
         for x, y in rock:
-            grid[y][x] = "#"
+            grid.add((x, y))
         return True, rock
 
-grid = [['#' for _ in range(7)]] + [['.' for _ in range(7)] for _ in range(10000)]
-moves = [*data]
-step = 0
-rocks = 0
-height = 0
+def play(moves, count):
+    grid = {(i, 0) for i in range(7)}
+    step = 0
+    rocks = 0
+    height = 0
+    height_skip = 0
+    states = {}
+    while rocks < count:
+        rock = spawn_rock(height=height+4, n=rocks)
+        placed = False
+        while not placed:
+            placed, rock = move_rock(grid=grid, rock=rock, direction=moves[step])
+            step = (step + 1) % len(moves)
+        height = max(height, max([y for _, y in rock]))
+        top = tuple(max([y for x, y in grid if x == i]) for i in range(7))
+        top = tuple(y - min(top) for y in top)
+        current_state = (top, rocks % 5, step)
+        if current_state in states:
+            rocks_old, height_old = states[current_state]
+            rocks_diff, height_diff = rocks - rocks_old, height - height_old
+            cycles = (count - rocks) // rocks_diff
+            rocks += rocks_diff * cycles
+            height_skip += height_diff * cycles
+        states.update({current_state: (rocks, height)})
+        rocks = rocks + 1
+    return height + height_skip
 
-while rocks < 2022:
-    rock = spawn_rock(height=height+4, n=rocks)
-    placed = False
-    while not placed:
-        placed, rock = move_rock(grid=grid, rock=rock, direction=moves[step % len(moves)])
-        step += 1
-    height = max(height, max([y for _, y in rock]))
-    rocks += 1
+answer_a = play(moves=data, count=2022)
+answer_b = play(moves=data, count=1000000000000)
 
-answer_a = height
+print(answer_a)
+print(answer_b)
 
 puzzle.answer_a = answer_a
+puzzle.answer_b = answer_b
