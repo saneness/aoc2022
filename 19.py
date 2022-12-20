@@ -43,11 +43,11 @@ def check_quality(blueprint, time, cut):
         for resources, robots in states:
             should_wait = not can_build(robot=0, blueprint=blueprint, resources=resources)
             robots_check = [0]
-            if resources[1] < blueprint[0][1] or robots[1] < blueprint[0][1]:
+            if min(resources[1], robots[1]) < blueprint[0][1]:
                 robots_check.append(1)
-            if resources[2] < blueprint[1][2] or robots[2] < blueprint[1][2]:
+            if min(resources[2], robots[2]) < blueprint[1][2]:
                 robots_check.append(2)
-            if resources[3] < max(blueprint[0][3], blueprint[1][3], blueprint[2][3], blueprint[3][3]) or robots[3] < max(blueprint[0][3], blueprint[1][3], blueprint[2][3], blueprint[3][3]):
+            if min(resources[3], robots[3]) < max(blueprint[0][3], blueprint[1][3], blueprint[2][3], blueprint[3][3]):
                 robots_check.append(3)
             for robot in robots_check:
                 if can_build(robot=robot, blueprint=blueprint, resources=resources):
