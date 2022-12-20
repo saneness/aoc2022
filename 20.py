@@ -31,7 +31,7 @@ unmake_unique = lambda x: [i // 10 for i in x]
 numbers = make_unique(data)
 after_first = unmake_unique(mix(numbers=numbers, times=1))
 
-numbers = make_unique(data, decryption_key=811589153)
+numbers = make_unique(numbers=data, decryption_key=811589153)
 numbers = unmake_unique(mix(numbers=numbers, times=10))
 
 groove_coordinates = lambda x: sum([x[(x.index(0) + i) % len(x)] for i in [1000, 2000, 3000]])
