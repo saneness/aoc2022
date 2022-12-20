@@ -18,7 +18,7 @@ def mix(numbers, times):
     initial = numbers.copy()
     numbers = numbers.copy()
     for _ in range(times):
-        for i, number in enumerate(initial):
+        for number in initial:
             if number != 0:
                 j = numbers.index(number)
                 numbers.insert((j + number // 10) % (len(numbers) - 1), numbers.pop(j))
