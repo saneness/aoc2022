@@ -9,23 +9,12 @@ data = puzzle.input_data
 
 rx = re.compile(r"\s(?P<id>\d+):.*\s(?P<ore_ore>\d+)\s.*\s(?P<clay_ore>\d+)\s.*\s(?P<obsidian_ore>\d+)\s.*\s(?P<obsidian_clay>\d+)\s.*\s(?P<geode_ore>\d+)\s.*\s(?P<geode_obsidian>\d+)\s", re.VERBOSE)
 blueprints = {
-    int(m.group("id")):
-    {
-        0: {
-            3: int(m.group("geode_ore")),
-            1: int(m.group("geode_obsidian"))
-        },
-        1: {
-            3: int(m.group("obsidian_ore")),
-            2: int(m.group("obsidian_clay"))
-        },
-        2: {
-            3: int(m.group("clay_ore"))
-        },
-        3: {
-            3: int(m.group("ore_ore"))
-        }
-    } for m in rx.finditer(data)
+    int(m.group("id")): {
+        0: { 3: int(m.group("geode_ore")), 1: int(m.group("geode_obsidian")) },
+        1: { 3: int(m.group("obsidian_ore")), 2: int(m.group("obsidian_clay")) },
+        2: { 3: int(m.group("clay_ore")) },
+        3: { 3: int(m.group("ore_ore")) }
+    } for m in rx.finditer(data) 
 }
 
 def can_build(robot, blueprint, resources):
@@ -53,14 +42,14 @@ def check_quality(blueprint, time, cut):
         new = []
         for resources, robots in states:
             should_wait = not can_build(robot=0, blueprint=blueprint, resources=resources)
-            robots_list = [0]
+            robots_check = [0]
             if resources[1] < blueprint[0][1] or robots[1] < blueprint[0][1]:
-                robots_list.append(1)
+                robots_check.append(1)
             if resources[2] < blueprint[1][2] or robots[2] < blueprint[1][2]:
-                robots_list.append(2)
+                robots_check.append(2)
             if resources[3] < max(blueprint[0][3], blueprint[1][3], blueprint[2][3], blueprint[3][3]) or robots[3] < max(blueprint[0][3], blueprint[1][3], blueprint[2][3], blueprint[3][3]):
-                robots_list.append(3)
-            for robot in robots_list:
+                robots_check.append(3)
+            for robot in robots_check:
                 if can_build(robot=robot, blueprint=blueprint, resources=resources):
                     state = build(robot=robot, blueprint=blueprint, resources=resources, robots=robots)
                     if state not in new:
@@ -75,17 +64,15 @@ def check_quality(blueprint, time, cut):
         time -= 1
     return sorted(states, key=lambda x: x[0][0])[-1][0][0]
 
-total_quality1 = 0
-total_quality2 = 1
+quality_a = 0
+quality_b = 1
 for i, blueprint in blueprints.items():
-    quality1 = check_quality(blueprint=blueprint, time=24, cut=100)
-    total_quality1 += i * quality1
+    quality_a += i * check_quality(blueprint=blueprint, time=24, cut=100)
     if i < 4:
-        quality2 = check_quality(blueprint=blueprint, time=32, cut=1200)
-        total_quality2 *= quality2
+        quality_b *= check_quality(blueprint=blueprint, time=32, cut=1200)
 
-answer_a = total_quality1
-answer_b = total_quality2
+answer_a = quality_a
+answer_b = quality_b
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
