@@ -1,8 +1,5 @@
 from aocd.models import Puzzle
 import re
-import time
-
-start = time.time()
 
 puzzle = Puzzle(year=2022, day=19)
 data = puzzle.input_data
