@@ -35,7 +35,7 @@ equation = build_tree(nodes=deepcopy(nodes), humn=1j)
 equation = calculate(equation["left"]) - calculate(equation["right"])
 
 answer_a = int(calculate(expression).real)
-answer_b = int(equation.real / -equation.imag)
+answer_b = int(-equation.real / equation.imag)
 
 puzzle.answer_a = answer_a
 puzzle.answer_b = answer_b
