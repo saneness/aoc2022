@@ -1,7 +1,7 @@
 from aocd.models import Puzzle
 
 puzzle = Puzzle(year=2022, day=24)
-data = [[*line][1:-1] for line in open("test2").read().splitlines()[1:-1]]
+data = [[*line][1:-1] for line in puzzle.input_data.splitlines()[1:-1]]
 
 def blizzard_state(blizzard, j_max, i_max, time):
     move = {
@@ -10,7 +10,7 @@ def blizzard_state(blizzard, j_max, i_max, time):
         "W": { "dj": 0, "di": -1 },
         "E": { "dj": 0, "di": 1 }
     }
-    return [((j + time * move[direction]["dj"]) % j_max, (i + time * move[direction]["di"]) % i_max) for j, i, direction in blizzard]
+    return list(set([((j + time * move[direction]["dj"]) % j_max, (i + time * move[direction]["di"]) % i_max) for j, i, direction in blizzard]))
 
 def new_moves(blizzard_next, j, i, j_max, i_max):
     common = [(j + dj, i + di) for dj, di in zip([1, 0, -1, 0, 0], [0, 1, 0, -1, 0]) if 0 <= j + dj < j_max and 0 <= i + di < i_max and (j + dj, i + di) not in blizzard_next]
